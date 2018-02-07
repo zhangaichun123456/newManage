@@ -1,7 +1,5 @@
 import axios from 'axios'  
 import qs from 'qs'  
-
-
 // 请求拦截（配置发送请求的信息）
 axios.interceptors.request.use(config => {  
   // 处理请求之前的配置
@@ -18,7 +16,7 @@ axios.interceptors.response.use(response => {
   return response  
 }, error => {  
   // 处理响应失败
-  return Promise.resolve(error.response)  
+  return Promise.reject(error)  
 }) 
 
 function errorState(response) {  
@@ -51,16 +49,15 @@ const httpServer = (opts, data) => {
           timeout: 10000,  
           params:Object.assign(Public, data),  
           data:qs.stringify(Object.assign(Public, data)),  
-          headers: opts.method=='get'?{  
-            'X-Requested-With': 'XMLHttpRequest',  
-            "Accept": "application/json",  
-            "Content-Type": "application/json; charset=UTF-8"  
-          }:{  
-            'X-Requested-With': 'XMLHttpRequest',  
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'  
-          }  
+          // headers: opts.method=='get'?{  
+          //   'X-Requested-With': 'XMLHttpRequest',  
+          //   "Accept": "application/json",  
+          //   "Content-Type": "application/json; charset=UTF-8"  
+          // }:{  
+          //   'X-Requested-With': 'XMLHttpRequest',  
+          //   'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'  
+          // }  
     }  
-  
     if(opts.method=='get'){  
       delete httpDefaultOpts.data  
     }else{  
